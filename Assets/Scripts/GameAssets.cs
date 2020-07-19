@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 
 public class GameAssets : MonoBehaviour
 {
@@ -25,5 +26,5 @@ public class GameAssets : MonoBehaviour
     }
 
     public Text timerText;
-
+    public Animator catAnimation;
 }

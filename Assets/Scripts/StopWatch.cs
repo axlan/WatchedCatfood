@@ -23,6 +23,7 @@ public class StopWatch : MonoBehaviour
         if (Input.anyKeyDown)
         {
             running = !running;
+            GameAssets.i.catAnimation.SetBool("Sleeping", running);
         }
         if (running)
         {
