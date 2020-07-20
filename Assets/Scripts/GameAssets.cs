@@ -27,4 +27,12 @@ public class GameAssets : MonoBehaviour
 
     public Text timerText;
     public Animator catAnimation;
+    public ParticleSystem foodParticles;
+    public Dialogue introDialogue;
+    public Dialogue goodDialogue;
+    public Dialogue badDialogue;
+    public DialogueManager dialogueBox;
+    public SpriteRenderer bowlSprite;
+    public Sprite bowlEmptyTexture;
+    public Sprite bowlFullTexture;
 }
