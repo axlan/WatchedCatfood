@@ -30,7 +30,8 @@ public class GameAssets : MonoBehaviour
     public ParticleSystem foodParticles;
     public Dialogue introDialogue;
     public Dialogue goodDialogue;
-    public Dialogue badDialogue;
+    public Dialogue badDialogueEarly;
+    public Dialogue badDialogueLate;
     public DialogueManager dialogueBox;
     public SpriteRenderer bowlSprite;
     public Sprite bowlEmptyTexture;

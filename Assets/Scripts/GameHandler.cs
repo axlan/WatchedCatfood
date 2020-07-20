@@ -12,7 +12,9 @@ public class GameHandler : MonoBehaviour
     }
 
     public float timerStart;
+    public float badTime;
     float time;
+    bool fed;
     GameState state;
 
 
@@ -22,7 +24,18 @@ public class GameHandler : MonoBehaviour
         time = timerStart;
         state = GameState.Intro;
         GameAssets.i.dialogueBox.StartDialogue(GameAssets.i.introDialogue);
-        GameAssets.i.foodParticles.Pause();
+        GameAssets.i.foodParticles.Stop();
+        GameAssets.i.bowlSprite.sprite = GameAssets.i.bowlEmptyTexture;
+    }
+
+    void NewTry()
+    {
+        state = GameState.Running;
+        time = timerStart;
+        GameAssets.i.foodParticles.Stop();
+        fed = false;
+        GameAssets.i.catAnimation.ResetTrigger("Eat");
+        GameAssets.i.catAnimation.SetTrigger("Wake");
         GameAssets.i.bowlSprite.sprite = GameAssets.i.bowlEmptyTexture;
     }
 
@@ -34,8 +47,7 @@ public class GameHandler : MonoBehaviour
             case GameState.Intro:
                 if (!GameAssets.i.dialogueBox.IsOpen())
                 {
-                    state = GameState.Running;
-                    GameAssets.i.catAnimation.SetTrigger("Wake");
+                    NewTry();
                 }
                 break;
             case GameState.Running:
@@ -44,17 +56,28 @@ public class GameHandler : MonoBehaviour
                     state = GameState.Stopped;
                     GameAssets.i.catAnimation.ResetTrigger("Wake");
                     GameAssets.i.catAnimation.SetTrigger("Eat");
+                    Dialogue endDialogue = (time < -badTime) ? GameAssets.i.badDialogueLate :
+                        (time > badTime) ? GameAssets.i.badDialogueEarly :
+                        GameAssets.i.goodDialogue;
+                    GameAssets.i.dialogueBox.StartDialogue(endDialogue);
                 }
                 time -= Time.deltaTime;
                 GameAssets.i.timerText.text = string.Format("{0,6:00.00}", time);
-                if (GameAssets.i.foodParticles.isPaused && time < 0)
-                {
-                    GameAssets.i.foodParticles.Play();
-                    GameAssets.i.bowlSprite.sprite = GameAssets.i.bowlFullTexture;
-                }
                 break;
             case GameState.Stopped:
+                time -= Time.deltaTime;
+                if (!GameAssets.i.dialogueBox.IsOpen())
+                {
+                    NewTry();
+                }
                 break;
+        }
+        if (!fed && time < 0)
+        {
+            GameAssets.i.foodParticles.time = 0;
+            fed = true;
+            GameAssets.i.foodParticles.Play();
+            GameAssets.i.bowlSprite.sprite = GameAssets.i.bowlFullTexture;
         }
     }
 }
