@@ -26,6 +26,7 @@ public class GameAssets : MonoBehaviour
     }
 
     public Text timerText;
+    public Text scoreText;
     public Animator catAnimation;
     public ParticleSystem foodParticles;
     public Dialogue introDialogue;
